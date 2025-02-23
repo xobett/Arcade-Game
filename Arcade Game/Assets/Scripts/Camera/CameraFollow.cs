@@ -1,0 +1,44 @@
+using UnityEngine;
+
+public class CameraFollow : MonoBehaviour
+{
+    //Transform used to follow player's position.
+    private Transform playerTransform;
+
+    [Header("FOLLOW SETTINGS")]
+    //Offset Vector used to customize following distances.
+    [SerializeField] private Vector3 offsetFollow = new Vector3(0, 0, 3);
+
+    //Float used to change the camera's following speed;
+    [SerializeField, Range(0, 10)] private float followVelocity;
+
+    private Vector3 velocityRef = Vector3.zero;
+
+    public bool playerIsNearWall;
+    void Start()
+    {
+        ReferencePlayer();
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        //Follow method is placed in the Fixed Update method due to stuttering in the normal Update method.
+        FollowPlayer();
+    }
+
+    private void FollowPlayer()
+    {
+        if (!playerIsNearWall)
+        {
+            //Follows the player smoothly, having a Vector3 offset to customize following distances.
+            transform.position = Vector3.SmoothDamp(transform.position, playerTransform.position + offsetFollow, ref velocityRef, 1f / followVelocity); 
+        }
+    }
+
+    private void ReferencePlayer()
+    {
+        //References the player transform.
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+}
