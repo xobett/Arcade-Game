@@ -4,12 +4,17 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("MOVEMENT SETTINGS")]
+    //Float that sets the walk speed of the player.
     [SerializeField, Range(1f, 5f)] private float walkSpeed;
+    //Float that sets the sprint speed of the player.
     [SerializeField, Range(1f, 5f)] private float sprintSpeed;
+    //2D Rigidbody of the player.
     private Rigidbody2D playerRb;
 
     [Header("JUMP SETTINGS")]
+    //Float that sets the jump force of the player.
     [SerializeField, Range (0f, 1f)] private float jumpForce = 0.2f;
+    //Bool that changes whe
     private bool isJumping;
 
     [Header("GRAVITY SETTINGS")]
@@ -88,12 +93,13 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsSprinting()
     {
+        //Returns true if the player is sprinting with Left Shift.
         return Input.GetKey(KeyCode.LeftShift);
     }
 
     private float HorizontalInput()
     {
-        //Returns Horizntal input multiplied by the current speed check.
+        //Returns Horizontal input multiplied by the current speed check.
         return Input.GetAxis("Horizontal") * SpeedCheck();
     }
 
@@ -105,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(groundCheck.position, radius);
     }
