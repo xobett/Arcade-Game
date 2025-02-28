@@ -14,7 +14,10 @@ public class CameraFollow : MonoBehaviour
 
     private Vector3 velocityRef = Vector3.zero;
 
+    private float velocity;
+
     public bool playerIsNearWall;
+
     void Start()
     {
         ReferencePlayer();
@@ -27,18 +30,48 @@ public class CameraFollow : MonoBehaviour
         FollowPlayer();
     }
 
+    private void Update()
+    {
+        if (PlayerIsGrounded()) Debug.Log("Player is in the ground");
+    }
+
     private void FollowPlayer()
     {
         if (!playerIsNearWall)
         {
             //Follows the player smoothly, having a Vector3 offset to customize following distances.
-            transform.position = Vector3.SmoothDamp(transform.position, playerTransform.position + offsetFollow, ref velocityRef, 1f / followVelocity); 
+            //FolowingMethod1();
+            FollowingMethod2();
         }
+    }
+
+    private void FollowingMethod2()
+    {
+        float horizontalFollowing = Mathf.SmoothDamp(transform.position.x, playerTransform.position.x, ref velocity, 1 / followVelocity);
+
+        Vector3 testVector = new Vector3(horizontalFollowing, transform.position.y, transform.position.z);
+
+        transform.position = testVector;
+    }
+
+    private void FolowingMethod1()
+    {
+        if (PlayerIsGrounded())
+        {
+
+        }
+
+        transform.position = Vector3.SmoothDamp(transform.position, playerTransform.position + offsetFollow, ref velocityRef, 1f / followVelocity);
     }
 
     private void ReferencePlayer()
     {
         //References the player transform.
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
+    private bool PlayerIsGrounded()
+    {
+        return playerTransform.gameObject.GetComponent<PlayerMovement>().IsTouching();
     }
 }

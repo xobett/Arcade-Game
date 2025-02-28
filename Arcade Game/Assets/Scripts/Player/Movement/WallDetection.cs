@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class WallDetection : MonoBehaviour
 {
-    [SerializeField, Range(0, 5)] private float detectionDistance;
+    [SerializeField, Range(0, 10)] private float detectionDistance;
     
     [SerializeField] private LayerMask whatIsWall;
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
         Detection();  
@@ -35,7 +30,5 @@ public class WallDetection : MonoBehaviour
         {
             Camera.main.GetComponent<CameraFollow>().playerIsNearWall = false;
         }
-
-
     }
 }

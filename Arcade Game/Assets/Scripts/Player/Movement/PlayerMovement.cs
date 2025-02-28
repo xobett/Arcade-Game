@@ -38,25 +38,24 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        IsJumpingCheck();
+        Jump();
     }
 
     private void FixedUpdate()
     {
-        MovementAndJump();
-        Jump();
+        Movement();
     }
 
     private void Jump ()
     {
-        if (isJumping && IsTouching())
+        if (IsJumping() && IsTouching())
         {
             //Sums to the gravity vector in the Y axis the jump force units.
             gravity.y = jumpForce;
         }
     }
 
-    private void MovementAndJump()
+    private void Movement()
     {
         //Constantly rests gravity speed units to the vector in the Y axis.
         gravity.y += gravitySpeed;
@@ -72,18 +71,6 @@ public class PlayerMovement : MonoBehaviour
         playerRb.MovePosition(playerRb.position + new Vector2(HorizontalInput() * Time.deltaTime, gravity.y));
     }
 
-    private void IsJumpingCheck()
-    {
-        //This method is used for Jump input, due to the Update method being better used for input than the fixed update.
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isJumping = true;
-        }
-        else
-        {
-            isJumping = false;
-        }
-    }
 
     private float SpeedCheck()
     {
@@ -91,27 +78,31 @@ public class PlayerMovement : MonoBehaviour
         return IsSprinting() ? sprintSpeed : walkSpeed;
     }
 
-    private bool IsSprinting()
-    {
-        //Returns true if the player is sprinting with Left Shift.
-        return Input.GetKey(KeyCode.LeftShift);
-    }
-
+    #region Inputs Region
     private float HorizontalInput()
     {
         //Returns Horizontal input multiplied by the current speed check.
         return Input.GetAxis("Horizontal") * SpeedCheck();
     }
-
-    private bool IsTouching()
+    private bool IsSprinting()
+    {
+        //Returns true if the player is sprinting with Left Shift.
+        return Input.GetKey(KeyCode.LeftShift);
+    }
+    private bool IsJumping()
+    {
+        return Input.GetKeyDown(KeyCode.Space);
+    } 
+    public bool IsTouching()
     {
         //Detects collision with ground.
         return Physics2D.OverlapCircle(groundCheck.position, radius, whatIsGround);
     }
+    #endregion
+
 
     private void OnDrawGizmosSelected()
     {
-
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(groundCheck.position, radius);
     }
