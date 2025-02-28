@@ -33,21 +33,20 @@ public class ShootLine : MonoBehaviour
 
     private void LineRaycast()
     {
-
-
-
-        //Corregir raycast, porque no esta apuntando bien.
-
-
         //Creates a Vector3 to store the direction the raycast will go to, by substracting the mouse position with the player position.
         Vector3 raycastDirection = GetMousePosition() - transform.position;
 
-        //Creates a raycast from the player to the mouse position.
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, raycastDirection);
-
+        //Creates a raycast from the player to the mouse position. Uses the raycast direction vector magnitude to specify the distance of the ray, otherwise it will be infinite.
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, raycastDirection, raycastDirection.magnitude);
+        
         if (hit)
         {
-            Debug.Log($"{hit.collider.name}");
+            if (hit.collider.CompareTag("Enemy"))
+            {
+
+                GameObject enemy = hit.collider.gameObject;
+                Destroy(enemy);
+            } 
         }
 
         //Draws the raycast from the player to the mouse position.
