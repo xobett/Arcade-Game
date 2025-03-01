@@ -24,12 +24,12 @@ public class ShootLine : MonoBehaviour
     private void Shoot()
     {
         //If player is holding left mouse clic, it will draw the shooting line.
-        if (IsShooting())
+        if (IsShooting() && CanShootLine())
         {
             Line();
         }
         //If player is stopped holding left mouse clic, it will reset the shooting line positions.
-        else if (Input.GetMouseButtonUp(0))
+        else if (StoppedShooting())
         {
             ResetLinePositions();
         }
@@ -109,4 +109,8 @@ public class ShootLine : MonoBehaviour
         return Input.GetMouseButton(0);
     }
 
+    private bool StoppedShooting()
+    {
+        return Input.GetMouseButtonUp(0);
+    }
 }
