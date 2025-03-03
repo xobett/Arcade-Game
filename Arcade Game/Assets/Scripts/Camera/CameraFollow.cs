@@ -30,11 +30,6 @@ public class CameraFollow : MonoBehaviour
         FollowPlayer();
     }
 
-    private void Update()
-    {
-        if (PlayerIsGrounded()) Debug.Log("Player is in the ground");
-    }
-
     private void FollowPlayer()
     {
         if (!playerIsNearWall)

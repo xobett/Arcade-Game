@@ -10,6 +10,7 @@ public class ShootLine : MonoBehaviour
     [SerializeField] private float lineLifetime;
     [SerializeField] private float lineDuration = 0;
 
+    [SerializeField] private float damageRate;
     void Start()
     {
         //Gets line component.
@@ -24,7 +25,7 @@ public class ShootLine : MonoBehaviour
     private void Shoot()
     {
         //If player is holding left mouse clic, it will draw the shooting line.
-        if (IsShooting() && CanShootLine())
+        if (IsShooting())
         {
             Line();
         }
@@ -60,7 +61,10 @@ public class ShootLine : MonoBehaviour
                 //Creates a gameobject containing the enemy, for better code readbility.
                 GameObject enemy = hit.collider.gameObject;
                 //Destroys the enemy
-                Destroy(enemy);
+                //Destroy(enemy);
+
+                enemy.GetComponent<Enemy>().TakeDamage(damageRate);
+                Debug.Log("SHould make damage");
             } 
         }
 
