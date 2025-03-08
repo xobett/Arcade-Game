@@ -2,7 +2,7 @@
 - Project name: Arcade Game
 - Unity version: Unity 6000.0.32f1
 - Active game object:
-  - Name: ItemText
-  - Tag: Untagged
-  - Layer: UI
+  - Name: Player
+  - Tag: Player
+  - Layer: Player
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
