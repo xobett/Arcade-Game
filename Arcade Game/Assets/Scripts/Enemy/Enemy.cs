@@ -16,6 +16,15 @@ public class Enemy : MonoBehaviour
         if (enemyHealth <= 0)
         {
             Destroy(gameObject);
+            HighScoreManager.Instance.AddScore();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            GameManager.Instance.AddGroundedEnemy();
         }
     }
 }

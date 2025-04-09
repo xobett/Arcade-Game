@@ -3,7 +3,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     //Transform used to follow player's position.
-    private Transform playerTransform;
+    [SerializeField] private Transform playerTransform;
 
     [Header("FOLLOW SETTINGS")]
     //Offset Vector used to customize following distances.
@@ -35,8 +35,8 @@ public class CameraFollow : MonoBehaviour
         if (!playerIsNearWall)
         {
             //Follows the player smoothly, having a Vector3 offset to customize following distances.
-            //FolowingMethod1();
-            FollowingMethod2();
+            FolowingMethod1();
+            //FollowingMethod2();
         }
     }
 

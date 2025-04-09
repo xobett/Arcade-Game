@@ -24,6 +24,8 @@ public class ShootLine : MonoBehaviour
 
     private void Shoot()
     {
+        if (GameManager.Instance.GameOver) return;
+
         //If player is holding left mouse clic, it will draw the shooting line.
         if (IsShooting())
         {
@@ -60,23 +62,14 @@ public class ShootLine : MonoBehaviour
             {
                 //Creates a gameobject containing the enemy, for better code readbility.
                 GameObject enemy = hit.collider.gameObject;
-                //Destroys the enemy
-                //Destroy(enemy);
 
                 enemy.GetComponent<Enemy>().TakeDamage(damageRate);
-                Debug.Log("SHould make damage");
             } 
         }
 
         //Draws the raycast from the player to the mouse position.
         Debug.DrawRay(transform.position, raycastDirection, Color.cyan);
     }
-
-    private bool CanShootLine()
-    {
-        return lineDuration < lineLifetime;
-    }
-
 
     private void LineDrawing()
     {

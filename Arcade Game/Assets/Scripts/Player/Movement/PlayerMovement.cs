@@ -26,14 +26,24 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float radius;
     [SerializeField] private LayerMask whatIsGround;
 
+    [Header("ANIMATOR SETTINGS")]
+    [SerializeField] private Animator animCtrlr;
+
     void Start()
+    {
+        GetReferences();
+
+        //Target frame rate is changed to 60 fps due problems with input dectection, but since it was changed to 60 fps it was fixed. 
+        Application.targetFrameRate = 60;
+    }
+
+    private void GetReferences()
     {
         playerRb = GetComponent<Rigidbody2D>();
 
         groundCheck = transform.GetChild(0);
 
-        //Target frame rate is changed to 60 fps due problems with input dectection, but since it was changed to 60 fps it was fixed. 
-        Application.targetFrameRate = 60;
+        animCtrlr = gameObject.GetComponent<Animator>();
     }
 
     void Update()
@@ -44,6 +54,18 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         Movement();
+        AnimationParameters();
+    }
+
+    void AnimationParameters()
+    {
+        if (HorizontalInput() != 0)
+        {
+            animCtrlr.SetBool("isRunning", true);
+        }
+
+        animCtrlr.SetBool("isTouching", IsTouching());
+        animCtrlr.SetBool("isJumping", IsJumping());
     }
 
     private void Jump ()
@@ -99,7 +121,6 @@ public class PlayerMovement : MonoBehaviour
         return Physics2D.OverlapCircle(groundCheck.position, radius, whatIsGround);
     }
     #endregion
-
 
     private void OnDrawGizmosSelected()
     {
